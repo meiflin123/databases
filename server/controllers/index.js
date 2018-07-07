@@ -30,19 +30,36 @@ module.exports = {
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       statusCode = 201;
-      let body = '';
-      request.on('data', (chunk) => {
-        body += chunk;
-      });
-      request.on('end', () => {
-        data.results.push(JSON.parse(body));
-        res.writeHead(statusCode, headers);
-        models.messages.post(function(err, text, userId) {
-          // SOMETHING;
+      res.writeHead(statusCode, headers);
+        
+      models.messages.post(function(err, results) {
+        let body = '';
+        request.on('data', (chunk) => {
+          body += chunk;
+        });
+        request.on('end', () => {
+          data.results.push(JSON.parse(body));
+        // SOMETHING;
         });
       });
-    } // a function which handles posting a message to the database
+    }, // a function which handles posting a message to the database
+    options: function (req, res) {
+      statusCode = 201;
+      res.writeHead(statusCode, headers);
+        
+      models.messages.post(function(err, results) {
+        let body = '';
+        request.on('data', (chunk) => {
+          body += chunk;
+        });
+        request.on('end', () => {
+          data.results.push(JSON.parse(body));
+        // SOMETHING;
+        });
+      });
+    } 
   },
+    
 
   users: {
     // Ditto as above
