@@ -3,7 +3,7 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: function (callback) {
-      var query = 'SELECT * FROM `messages`';
+      var query = 'SELECT * FROM messages join users on (messages.userId = users.id)';
       db.connection.query(query, function(err, results) {
         if (err) {
           console.log(err);

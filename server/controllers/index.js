@@ -8,20 +8,24 @@ var headers = {
 };
 
 var data = {
-  results: [
-  ]
+  results: []
 };
+
 
 module.exports = {
   messages: {
     get: function (req, res) {
       statusCode = 200;
       res.writeHead(statusCode, headers);
-      models.messages.get(function(err, text, userId) {
-        res.send('chatroom', {
-          messsage: text,
-          user: userId
-        });  
+      models.messages.get(function(err, results) {
+        if (err) {
+          console.log(err);
+        } else {
+          data.url = '/messages';
+          data.method = 'GET';
+          data.results = results;
+          res.end(JSON.stringify(data));  
+        }
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {

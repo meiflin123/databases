@@ -4,7 +4,7 @@ var app = {
   //to all messages sent by the user
   server: 'http://127.0.0.1:3000/classes/messages',
   username: 'anonymous',
-  roomname: 'lobby',
+  roomname: 'main',
   lastMessageId: 0,
   friends: {},
   messages: [],
@@ -61,7 +61,7 @@ var app = {
       type: 'GET',
       // data: { order: '-createdAt' },
       success: function(data) {
-
+        data = JSON.parse(data);
         // Store messages for caching later
         app.messages = data.results;
 
@@ -94,12 +94,16 @@ var app = {
     // Clear existing messages`
     app.clearMessages();
     app.stopSpinner();
+        
+
     if (Array.isArray(messages)) {
       // Add all fetched messages that are in our current room
+      console.log(messages);
+
       messages
         .filter(function(message) {
           return message.roomname === app.roomname ||
-                 app.roomname === 'lobby' && !message.roomname;
+                 app.roomname === 'main' && !message.roomname;
         })
         .forEach(app.renderMessage);
     }
@@ -140,10 +144,12 @@ var app = {
   },
 
   renderMessage: function(message) {
+    console.log(message);
+
     if (!message.roomname) {
       message.roomname = 'lobby';
     }
-
+   
     // Create a div to hold the chats
     var $chat = $('<div class="chat"/>');
 
